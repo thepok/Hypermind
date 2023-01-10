@@ -1,0 +1,40 @@
+﻿@page "/counter"
+@using HypermindLib
+@using OpenAILib
+@inject HttpClient Http
+
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<InputTextArea @bind-Value="@promp" />
+<button class="btn btn-primary" @onclick="SendPrompToOpenAI">Send Promp</button>
+
+
+@code {
+
+    string promp;
+
+
+
+    private async void SendPrompToOpenAI()
+    {
+
+
+        OpenAI ai=new OpenAI();
+        ai.HtmlClient = Http;
+
+        var result = await ai.ProcessAsync(new LLM_Input(promp));
+        if (result.State==OutputState.Success)
+        {
+            promp = promp + result.Completion;
+        }
+        else
+        {
+            promp = promp + " ERROR ACCESSING OPEN_AI";
+        }
+
+        this.StateHasChanged();
+    }
+}
