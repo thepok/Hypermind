@@ -1,25 +1,25 @@
 # Hypermind
- connect foundation models to enable emergent capabilities
+connect foundation models to enable emergent capabilities
 
  
- Installation: Add reference to HypermindLib and OpenAILib
+##  Installation: 
+Add reference to HypermindLib and OpenAILib
  
- Example Code:
+Example Code:
 
- [code]
- using HypermindLib;
+```csharp
+using HypermindLib;
 using OpenAILib;
 
 
 var answerer = new AnswerQuestionWithText(new OpenAI());
 var result = answerer.Process(("text", "the apple was red and the car yellow"), ("question", "what color was the apple?"));
-Console.WriteLine(result.Result);
+Console.WriteLine(result.Result); //->Red
 
-Console.ReadLine();
+
 var summerizer = new SimpleSummerizer(new OpenAI());
-var erg = summerizer.Process(("text", "Russische Kräfte machen nach britischer Einschätzung leichte Fortschritte bei den Kämpfen um die ostukrainische Stadt Bachmut. Reguläre Truppen und Einheiten der Söldnergruppe Wagner hätten in den vergangenen vier Tagen taktische Vorstöße in die zehn Kilometer nördlich gelegene Kleinstadt Soledar gemacht und kontrollierten wahrscheinlich den größten Teil des Orts, teilt das Verteidigungsministerium in London mit. Bachmut bleibe das vorrangige Ziel der russischen Offensive. Der Vorstoß nach Soledar solle die Stadt von Norden her einschließen und ukrainische Kommunikationswege unterbrechen. Die Kämpfe konzentrierten sich auf Zugänge zu stillgelegten Salzminenstollen, die unter dem Gebiet verlaufen und insgesamt rund 200 Kilometer lang seien. Trotz des erhöhten Drucks auf Bachmut sei es unwahrscheinlich, dass Russland die Stadt bald einnimmt, da die ukrainischen Streitkräfte stabile Verteidigungsstellungen aufgebaut hätten und auch die Versorgungswege weiter kontrollierten.\r\n\r\n"));
-
+var erg = summerizer.Process(("text", "Russische KrÃ¤fte machen nach britischer EinschÃ¤tzung leichte Fortschritte bei den KÃ¤mpfen um die ostukrainische Stadt Bachmut. RegulÃ¤re Truppen und Einheiten der SÃ¶ldnergruppe Wagner hÃ¤tten in den vergangenen vier Tagen taktische VorstÃ¶ÃŸe in die zehn Kilometer nÃ¶rdlich gelegene Kleinstadt Soledar gemacht und kontrollierten wahrscheinlich den grÃ¶ÃŸten Teil des Orts, teilt das Verteidigungsministerium in London mit. Bachmut bleibe das vorrangige Ziel der russischen Offensive. Der VorstoÃŸ nach Soledar solle die Stadt von Norden her einschlieÃŸen und ukrainische Kommunikationswege unterbrechen. Die KÃ¤mpfe konzentrierten sich auf ZugÃ¤nge zu stillgelegten Salzminenstollen, die unter dem Gebiet verlaufen und insgesamt rund 200 Kilometer lang seien. Trotz des erhÃ¶hten Drucks auf Bachmut sei es unwahrscheinlich, dass Russland die Stadt bald einnimmt, da die ukrainischen StreitkrÃ¤fte stabile Verteidigungsstellungen aufgebaut hÃ¤tten und auch die Versorgungswege weiter kontrollierten.\r\n\r\n"));
 Console.WriteLine(erg.Result);
 
- [/code]
+```
  
