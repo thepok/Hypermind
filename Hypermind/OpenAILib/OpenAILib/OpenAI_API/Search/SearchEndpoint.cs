@@ -62,7 +62,7 @@ namespace OpenAI_API
 				catch (Exception) { }
 
 				if (res.Results == null || res.Results.Count == 0)
-					throw new HttpRequestException("API returnes no search results.  HTTP status code: " + response.StatusCode.ToString() + ". Response body: " + resultAsString);
+					throw new HttpRequestException("API returns no search results.  HTTP status code: " + response.StatusCode.ToString() + ". Response body: " + resultAsString);
 
 				return res.Results.ToDictionary(r => request.Documents[r.DocumentIndex], r => r.Score);
 			}
