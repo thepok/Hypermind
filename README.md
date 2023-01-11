@@ -26,4 +26,32 @@ var erg = summerizer.Process(("text", "Russische Kräfte machen nach britischer 
 Console.WriteLine(erg.Result);
 
 ```
+
+See the SimpleSummerizer as inspiration for new chains. Its simple, like lego.
+
+```csharp
+    public class SimpleSummerizer:Chain
+    {
+        PrompTemplate SummerizerPromp = new PrompTemplate(
+@"""Summerize the following text between >>> and <<< 
+
+>>>
+{text}
+<<<
+
+Summery:"""
+        );
+
+        ModelWithPromp Sumerizer;
+        public SimpleSummerizer(LLM llm)
+        {
+            Sumerizer = new ModelWithPromp(llm, SummerizerPromp);
+        }
+
+        public override ChainOutput Process(ChainInput input)
+        {
+            return Sumerizer.Process(input);
+        }
+    }
+ ´´´
  
