@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HypermindLib\HypermindLib.csproj" />
-    <ProjectReference Include="..\OpenAI\OpenAILib.csproj" />
+    <ProjectReference Include="..\OpenAILib\OpenAILib.csproj" />
   </ItemGroup>
 
 </Project>
