@@ -29,6 +29,19 @@ Answer:""");
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="text">Text possibly containing answer</param>
+        /// <param name="question">Question about text</param>
+        /// <returns>Answer or "not found"</returns>
+        public string AskQuestion(string text, string question)
+        {
+            var input = new ChainInput("text", text, "question", question);
+            var output = SimpleQuestionAnswerer.Process(input);
+            return output.Result[0].Value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="input">expects "text" param and "question" param</param>
         /// <returns></returns>
         public override ChainOutput Process(ChainInput input)

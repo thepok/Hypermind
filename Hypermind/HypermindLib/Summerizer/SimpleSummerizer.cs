@@ -24,6 +24,18 @@ Summery:"""
             Sumerizer = new ModelWithPromp(llm, SummerizerPromp);
         }
 
+        /// <summary>
+        /// Simplified Call to Summerizer
+        /// </summary>
+        /// <param name="text">Text we want summerized</param>
+        /// <returns></returns>
+        public string Summerize(string text)
+        {
+            var input = new ChainInput("text", text);
+            var output = Sumerizer.Process(input);
+            return output.Result[0].Value;
+        }
+        
         public override ChainOutput Process(ChainInput input)
         {
             return Sumerizer.Process(input);
