@@ -3,7 +3,7 @@ connect foundation models to enable emergent capabilities - with ease
 
 ## Community 
 
-[![](https://dcbadge.vercel.app/api/server/6teaRCtD?compact=true&style=flat)](https://discord.gg/6teaRCtD)
+[![](https://dcbadge.vercel.app/api/server/6teaRCtD?style=flat)](https://discord.gg/6teaRCtD)
 ##  Installation: 
 Add reference to HypermindLib and OpenAILib
  
