@@ -1,5 +1,6 @@
 # Hypermind
-Welcome to Hypermind the .NET way of building minds
+Welcome to Hypermind the .NET way of building minds.
+
 Connect foundation models to enable emergent capabilities - with ease
 
 ## Community 
