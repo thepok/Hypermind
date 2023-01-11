@@ -1,5 +1,5 @@
 # Hypermind
-connect foundation models to enable emergent capabilities
+connect foundation models to enable emergent capabilities - with ease
 
 ## Community 
 
