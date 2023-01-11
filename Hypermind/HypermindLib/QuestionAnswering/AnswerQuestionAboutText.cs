@@ -7,7 +7,7 @@ using HypermindLib;
 
 namespace HypermindLib
 {
-    public class AnswerQuestionWithText:Chain
+    public class AnswerQuestionAboutText:Chain
     {
         PrompTemplate QuestionPromp = new PrompTemplate(@"Read the text between >>> and <<< and answer the question following the text.
 >>>
@@ -21,7 +21,7 @@ Answer:");
 
         Chain SimpleQuestionAnswerer;
 
-        public AnswerQuestionWithText(LLM llm)
+        public AnswerQuestionAboutText(LLM llm)
         {
             SimpleQuestionAnswerer = new ModelWithPromp(llm, QuestionPromp);
         }

@@ -3,7 +3,18 @@ using HypermindLib;
 using OpenAILib;
 
 
-var answerer = new AnswerQuestionWithText(new OpenAI());
+var askLLm = new AskLLM(new OpenAI());
+
+var site = askLLm.Ask("What is the Url of the Wikipediasite about the element gold?");
+Console.WriteLine(site);
+
+Webrequest webrequest = new Webrequest();
+var text = webrequest.Get(site);
+Console.WriteLine(text);
+
+Console.ReadLine();
+
+var answerer = new AnswerQuestionAboutText(new OpenAI());
 var result = answerer.AskQuestion("the apple was red and the car yellow","what color was the apple?");
 Console.WriteLine(result);
 
