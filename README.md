@@ -8,7 +8,7 @@ Connect foundation models to enable emergent capabilities - with ease
 [![](https://dcbadge.vercel.app/api/server/6teaRCtD?style=flat)](https://discord.gg/6teaRCtD)
 ##  Installation: 
 Add reference to HypermindLib and OpenAILib
- 
+ Set the Enivormentvariable OPENAI_API_KEY to your OpenAI API Key or provide Key directly in Code
 Example Code:
 
 ```csharp
