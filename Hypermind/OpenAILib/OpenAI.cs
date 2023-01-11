@@ -6,12 +6,7 @@ namespace OpenAILib
 {
     public class OpenAIModels
     {
-        public const string
-            davinci = "text-davinci-003",
-            curie = "text-curie-001",
-            baggage = "text-babbage-001",
-            ada = "text-ada-001",
-            strongest = davinci;
+
     }
     
     public class OpenAI : LLM
@@ -21,12 +16,19 @@ namespace OpenAILib
        
         public HttpClient? HtmlClient;
 
+        public const string
+            DAVINCI = "text-davinci-003",
+            CURIE = "text-curie-001",
+            BAGGAGE = "text-babbage-001",
+            ADA = "text-ada-001",
+            STRONGEST = DAVINCI;
+
         /// <summary>
         /// Create a new wrapper to access OpenAI LLMs
         /// </summary>
         /// <param name="model">Name of Model, see OpenAIModels for possible Values</param>
         /// <param name="maxNewTokens">Maximum numbers of Tokens to generate</param>
-        public OpenAI(string model = OpenAIModels.strongest, int maxNewTokens=250)
+        public OpenAI(string model = STRONGEST, int maxNewTokens=250)
         {
             var OPEN_AI_API_KEY = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
             var oai = new OpenAIAPI(new APIAuthentication(OPEN_AI_API_KEY));

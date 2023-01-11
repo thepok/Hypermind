@@ -9,7 +9,7 @@ namespace HypermindLib
 {
     public class AnswerQuestionWithText:Chain
     {
-        PrompTemplate QuestionPromp = new PrompTemplate(@"""Read the text between >>> and <<< and answer the question following the text.
+        PrompTemplate QuestionPromp = new PrompTemplate(@"Read the text between >>> and <<< and answer the question following the text.
 >>>
 {text}
 <<<
@@ -17,7 +17,7 @@ namespace HypermindLib
 Question:{question}
 If you can'tfind the answer in the text, say 'no answer found'.
 
-Answer:""");
+Answer:");
 
         Chain SimpleQuestionAnswerer;
 
