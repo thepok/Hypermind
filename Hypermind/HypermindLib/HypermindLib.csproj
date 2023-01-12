@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EasyCaching.InMemory" Version="1.8.0" />
+    <PackageReference Include="EasyCaching.SQLite" Version="1.8.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
   </ItemGroup>
 

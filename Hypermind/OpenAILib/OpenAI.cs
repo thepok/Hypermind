@@ -28,7 +28,7 @@ namespace OpenAILib
         /// </summary>
         /// <param name="model">Name of Model, see OpenAIModels for possible Values</param>
         /// <param name="maxNewTokens">Maximum numbers of Tokens to generate</param>
-        public OpenAI(string model = STRONGEST, int maxNewTokens=250)
+        public OpenAI(string model = STRONGEST, int maxNewTokens=250, double tempreature=0)
         {
             var OPEN_AI_API_KEY = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
             var oai = new OpenAIAPI(new APIAuthentication(OPEN_AI_API_KEY));
@@ -36,8 +36,13 @@ namespace OpenAILib
 
             api = oai.Completions;
             api.DefaultCompletionRequestArgs.MaxTokens = maxNewTokens;
+            api.DefaultCompletionRequestArgs.Temperature = tempreature;
+
+            UniqueID = $"OpenAI_{model}_{tempreature}_{maxNewTokens}";
         }
-        public override LLM_Output Process(LLM_Input promp)
+
+        
+        public override LLM_Output CallLLM(LLM_Input promp)
         {
             
             var callTask = api.CreateCompletionAsync(promp.Prompt, HtmlClient);
@@ -53,10 +58,16 @@ namespace OpenAILib
             }
         }
 
-        public async Task<LLM_Output> ProcessAsync(LLM_Input promp)
+        public async Task<LLM_Output> CallLLMAsync(LLM_Input promp)
         {
 
             return new LLM_Output((await api.CreateCompletionAsync(promp.Prompt, HtmlClient)).Completions[0].Text);
+        }
+
+        private string UniqueID;
+        public override string GetUniqueID()
+        {
+            return UniqueID;
         }
     }
 }

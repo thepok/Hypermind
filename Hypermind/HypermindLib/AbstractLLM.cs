@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EasyCaching.Core;
+using EasyCaching.SQLite;
+
 
 namespace HypermindLib
 {
@@ -37,6 +40,31 @@ namespace HypermindLib
 
     public abstract class LLM : AbstractMind<LLM_Input, LLM_Output>
     {
+        public abstract LLM_Output CallLLM(LLM_Input input);
 
+        public abstract string GetUniqueID();
+        public override LLM_Output Process(LLM_Input input)
+        {
+            if(HypermindCache.GlobalEnabled)
+            {
+                //see if Cachehit
+                var cache = HypermindCache.Cache;
+                var cacheKey = GetUniqueID() + input.Prompt;
+                if (cache.Exists(cacheKey))
+                {
+                    var cacheResult = cache.Get<string>(cacheKey);
+                    return new LLM_Output(cacheResult.Value);
+                }
+                else
+                {
+                    var result = CallLLM(input);
+                    cache.Set(cacheKey, result.Completion, HypermindCache.CacheTime);
+                    return result;
+                }
+                
+
+            }
+            return CallLLM(input);
+        }
     }
 }

@@ -2,7 +2,6 @@
 using HypermindLib;
 using OpenAILib;
 
-
 var askLLm = new AskLLM(new OpenAI());
 
 var site = askLLm.Ask("What is the Url of the Wikipediasite about the element gold?");
