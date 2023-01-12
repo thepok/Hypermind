@@ -31,7 +31,7 @@ namespace HypermindLib
                 //remove last char from filteredUrl if it is a point
                 if(filteredUrl.EndsWith("."))
                 {
-                    filteredUrl = filteredUrl.Remove(filteredUrl.Length - 1);
+                    filteredUrl = filteredUrl[..^1];
                 }
 
                 HttpClient client = new HttpClient();
