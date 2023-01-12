@@ -11,6 +11,12 @@ Add reference to HypermindLib and OpenAILib
  Set the Enivormentvariable OPENAI_API_KEY to your OpenAI API Key or provide Key directly in Code
 Example Code:
 
+## News
+
+Caching for LLMs implemented!
+
+## Examples
+
 ```csharp
 // See https://aka.ms/new-console-template for more information
 using HypermindLib;
