@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HypermindLib
 {
-    public class SimpleSummerizer:Chain
+    public class SimpleSummarizer:Chain
     {
         PrompTemplate SummerizerPromp = new PrompTemplate(
 @"""Summerize the following text between >>> and <<< 
@@ -19,7 +19,7 @@ Summery:"""
         );
 
         ModelWithPromp Sumerizer;
-        public SimpleSummerizer(LLM llm)
+        public SimpleSummarizer(LLM llm)
         {
             Sumerizer = new ModelWithPromp(llm, SummerizerPromp);
         }

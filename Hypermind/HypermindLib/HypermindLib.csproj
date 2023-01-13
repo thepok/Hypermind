@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AI.Dev.OpenAI.GPT" Version="1.0.2" />
     <PackageReference Include="EasyCaching.InMemory" Version="1.8.0" />
     <PackageReference Include="EasyCaching.SQLite" Version="1.8.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
