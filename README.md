@@ -12,8 +12,8 @@ Add reference to HypermindLib and OpenAILib
 Example Code:
 
 ## News
-
-Caching for LLMs implemented!
+* Recursive SUmmarizer - simply summarize a complete book
+* Caching for LLMs implemented
 
 ## Examples
 
@@ -47,10 +47,10 @@ Console.WriteLine(result);
 
 ```
 
-See the SimpleSummerizer as inspiration for new chains. Its simple, like lego.
+See the RecursiveSummerizer as inspiration for new chains. Its simple, like lego.
 
 ```csharp
-    public class SimpleSummerizer:Chain
+    public class RecursivSummarizer : Chain
     {
         PrompTemplate SummerizerPromp = new PrompTemplate(
 @"""Summerize the following text between >>> and <<< 
@@ -63,7 +63,7 @@ Summery:"""
         );
 
         ModelWithPromp Sumerizer;
-        public SimpleSummerizer(LLM llm)
+        public RecursivSummarizer(LLM llm)
         {
             Sumerizer = new ModelWithPromp(llm, SummerizerPromp);
         }
@@ -75,11 +75,23 @@ Summery:"""
         /// <returns></returns>
         public string Summerize(string text)
         {
-            var input = new ChainInput("text", text);
-            var output = Sumerizer.Process(input);
-            return output.Result[0].Value;
+            var splits = Textsplitter.SmartStringSplit(text, 8000);
+
+            if (splits.Length == 1)
+            {
+                var input = new ChainInput("text", text);
+                var output = Sumerizer.Process(input);
+                return output.Result[0].Value;
+            }
+            else
+            {
+                var concatsummeries = splits.Select(s => Summerize(s)).Aggregate("", (current, next) => { return current +" "+ next; });
+                var finamsummary = Summerize(concatsummeries);
+
+                return finamsummary;
+            }
         }
-        
+
         public override ChainOutput Process(ChainInput input)
         {
             return Sumerizer.Process(input);
