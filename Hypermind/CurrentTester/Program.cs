@@ -16,7 +16,9 @@ Console.WriteLine(text);
 var splits = Textsplitter.SmartStringSplit(text, 4000);
 
 //summarize a novel
-text = webrequest.Get("https://www.gutenberg.org/cache/epub/69773/pg69773-images.html");
+Console.WriteLine("warning - summarizing a book with OpenAI davinci costs ~ 2$");
+Console.ReadLine();
+text = webrequest.Get("https://www.gutenberg.org/files/11/11-h/11-h.htm");
 var recursivSummerizer = new RecursivSummarizer(new OpenAI(maxNewTokens:500));
 var summery = recursivSummerizer.Summerize(text);
 Console.WriteLine(summery);
