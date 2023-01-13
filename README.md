@@ -12,7 +12,7 @@ Add reference to HypermindLib and OpenAILib
 Example Code:
 
 ## News
-* Recursive SUmmarizer - simply summarize a complete book
+* Recursive Summarizer - simply summarize a complete book
 * Caching for LLMs implemented
 
 ## Examples
