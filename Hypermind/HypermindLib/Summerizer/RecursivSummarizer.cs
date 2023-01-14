@@ -42,9 +42,9 @@ Summery:"""
             else
             {
                 var concatsummeries = splits.Select(s => Summerize(s)).Aggregate("", (current, next) => { return current +" "+ next; });
-                var finamsummary = Summerize(concatsummeries);
+                
 
-                return finamsummary;
+                return concatsummeries;
             }
         }
 
