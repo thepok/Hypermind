@@ -2,12 +2,8 @@
 using HypermindLib;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace OpenAILib
+namespace HypermindLib
 {
-    public class OpenAIModels
-    {
-
-    }
     
     public class OpenAI : LLM
     {

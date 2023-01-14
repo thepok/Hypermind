@@ -1,6 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using HypermindLib;
-using OpenAILib;
 
 //Ask a LLM a question that it directly without help awnsers.
 var askLLm = new AskLLM(new OpenAI());
