@@ -25,7 +25,7 @@ namespace HypermindLib
         {
             var sqlOptions = new SQLiteOptions();
             var sqlDBoptions= new SQLiteDBOptions();
-            sqlDBoptions.FileName = @"my.db";
+            sqlDBoptions.FileName = @"cache.db";
             
             sqlOptions.DBConfig = sqlDBoptions;
 

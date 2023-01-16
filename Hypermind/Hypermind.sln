@@ -12,8 +12,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrentTester", "CurrentTes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{02C0243C-8C02-4088-AD5B-C053A528C5FF}"
 	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
 		..\README.md = ..\README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneralAdvicer", "GeneralAdvicer\GeneralAdvicer.csproj", "{7057776A-C840-4C49-94B9-3157A7E3AB7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +32,10 @@ Global
 		{B1D24519-E356-48C3-B6EC-02814A427DA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1D24519-E356-48C3-B6EC-02814A427DA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1D24519-E356-48C3-B6EC-02814A427DA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7057776A-C840-4C49-94B9-3157A7E3AB7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7057776A-C840-4C49-94B9-3157A7E3AB7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7057776A-C840-4C49-94B9-3157A7E3AB7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7057776A-C840-4C49-94B9-3157A7E3AB7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

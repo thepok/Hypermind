@@ -1,0 +1,107 @@
+﻿@page "/advicer"
+@page "/"
+@using HypermindLib
+@using System.Text;
+
+<PageTitle>General Advicer</PageTitle>
+
+<h1>GeneralAdvicer</h1>
+
+@foreach (var message in messages)
+{
+    <p>@message.sender: @message.text</p>
+}
+<br />
+<p title="@lastPromp">Staus: @status</p>
+<form @onsubmit="GetAdvice">
+<InputText @bind-Value="nextMessage"></InputText>
+<button class="btn btn-primary">Send</button>
+</form>
+
+@code {
+
+    class Message
+    {
+        public string sender;
+        public string text;
+        public DateTime time;
+        
+        public string ToLogline()
+        {
+            return $"{sender}: {text}";
+        }
+    }
+
+    private List<Message> messages = new List<Message>();
+
+    private string status = "";
+
+    private string nextMessage = "";
+
+    public string lastPromp = "not yet set";
+
+    private const string BotName = "Advicer";
+
+    private const string UserName = "User";
+
+    private string GetLog()
+    {
+        var sb = new StringBuilder();
+
+        foreach( var message in messages)
+        {
+            sb.AppendLine(message.ToLogline());
+        }
+        return sb.ToString();
+    }
+
+    public string GetPromp()
+    {
+        var start = @"You are a nice Advicer helping the User. Start by greeting the User." + Environment.NewLine;
+        var log = GetLog();
+        var YouPart = BotName+":";
+
+        return start + log + YouPart;
+    }
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+            Console.WriteLine("Init called!");
+
+            await createAnswer();
+
+            Console.WriteLine("Init done!");
+            base.OnAfterRender(firstRender);
+        }
+    }
+
+    private async Task<string>  createAnswer()
+    {
+        lastPromp = GetPromp();
+        ModelWithPromp model = new ModelWithPromp(new OpenAI(maxNewTokens: 500), new PrompTemplate(lastPromp));
+        string answer = "";
+        await Task.Run(() =>
+        {
+            this.status = "Loading answer";
+            this.InvokeAsync(() => this.StateHasChanged());
+            answer = model.Process().Result[0].Value;
+            messages.Add(new Message { sender = BotName, text = answer, time = DateTime.Now });
+            status = "Waiting for User";
+            this.InvokeAsync(() => this.StateHasChanged());
+        });
+        return answer;
+    }
+
+    private async void GetAdvice()
+    {
+        this.messages.Add(new Message { sender = UserName, text = nextMessage, time = DateTime.Now });
+
+        nextMessage = "";
+
+        await createAnswer();
+
+    }
+}
