@@ -19,7 +19,6 @@ Example Code:
 
 ```csharp
 using HypermindLib;
-using OpenAILib;
 
 //Ask a LLM a question that it directly without help awnsers.
 var askLLm = new AskLLM(new OpenAI());
