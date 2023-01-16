@@ -1,6 +1,10 @@
-﻿using OpenAI_API;
-using HypermindLib;
+﻿using HypermindLib;
 using static System.Net.Mime.MediaTypeNames;
+using OpenAI.GPT3.Managers;
+using OpenAI.GPT3.ObjectModels.RequestModels;
+using OpenAI.GPT3.ObjectModels;
+using OpenAI.GPT3;
+using OpenAI.GPT3.Interfaces;
 
 namespace HypermindLib
 {
@@ -8,7 +12,6 @@ namespace HypermindLib
     public class OpenAI : LLM
     {
 
-        CompletionEndpoint api;
        
         public HttpClient? HtmlClient;
 
@@ -19,46 +22,66 @@ namespace HypermindLib
             ADA = "text-ada-001",
             STRONGEST = DAVINCI;
 
+        OpenAIService openAiService;
+
+        int MaxTokens = 250;
+        double Temperature = 0.5;
+        string Model;
+
         /// <summary>
         /// Create a new wrapper to access OpenAI LLMs
         /// </summary>
         /// <param name="model">Name of Model, see OpenAIModels for possible Values</param>
         /// <param name="maxNewTokens">Maximum numbers of Tokens to generate</param>
-        public OpenAI(string model = STRONGEST, int maxNewTokens=250, double tempreature=0)
+        public OpenAI(string model = STRONGEST, int maxNewTokens=250, double temperature=0)
         {
-            var OPEN_AI_API_KEY = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
-            var oai = new OpenAIAPI(new APIAuthentication(OPEN_AI_API_KEY));
-            oai.UsingEngine = new Engine(model);
+            openAiService = new OpenAIService(new OpenAiOptions()
+            {
+                ApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY"),
+                Organization = "" //not yet needed
+            });
 
-            api = oai.Completions;
-            api.DefaultCompletionRequestArgs.MaxTokens = maxNewTokens;
-            api.DefaultCompletionRequestArgs.Temperature = tempreature;
 
-            UniqueID = $"OpenAI_{model}_{tempreature}_{maxNewTokens}";
+
+            Model = model;
+            MaxTokens = maxNewTokens;
+            Temperature = temperature;
+
+            UniqueID = $"OpenAI_{model}_{temperature}_{maxNewTokens}";
         }
 
         
         public override LLM_Output CallLLM(LLM_Input promp)
         {
-            
-            var callTask = api.CreateCompletionAsync(promp.Prompt, HtmlClient);
-            callTask.Wait();
-            if (callTask.IsCompleted)
+            var completionResult = openAiService.Completions
+            .CreateCompletion(new CompletionCreateRequest()
             {
-                var result = callTask.Result;
-                return new LLM_Output(result.Completions[0].Text);
+                Prompt = promp.Input,
+                MaxTokens = MaxTokens
+            }, Model);
+
+            completionResult.Wait();
+
+
+
+            if (completionResult.IsCompleted)
+            {
+                var response = completionResult.Result
+                .Choices.FirstOrDefault()?.Text ?? "";
+                return new LLM_Output(response);
             }
             else
             {
                 return new LLM_Output(OutputState.Error);
+                //if (completionResult.Error == null)
+                //{
+                //    response = "Unknown Error";
+                //}
+                //response =
+                //$"{completionResult.Error?.Code}: {completionResult.Error?.Message}";
             }
         }
 
-        public async Task<LLM_Output> CallLLMAsync(LLM_Input promp)
-        {
-
-            return new LLM_Output((await api.CreateCompletionAsync(promp.Prompt, HtmlClient)).Completions[0].Text);
-        }
 
         private string UniqueID;
         public override string GetUniqueID()
