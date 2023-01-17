@@ -8,7 +8,7 @@ namespace HypermindLib
 {
     public class SimpleSummarizer:Chain
     {
-        PrompTemplate SummerizerPromp = new PrompTemplate(
+        PrompTemplate SummarizerPromp = new PrompTemplate(
 @"""Summerize the following text between >>> and <<< 
 
 >>>
@@ -21,11 +21,11 @@ Summery:"""
         ModelWithPromp Sumerizer;
         public SimpleSummarizer(LLM llm)
         {
-            Sumerizer = new ModelWithPromp(llm, SummerizerPromp);
+            Sumerizer = new ModelWithPromp(llm, SummarizerPromp);
         }
 
         /// <summary>
-        /// Simplified Call to Summerizer
+        /// Simplified Call to Summarizer
         /// </summary>
         /// <param name="text">Text we want summerized</param>
         /// <returns></returns>

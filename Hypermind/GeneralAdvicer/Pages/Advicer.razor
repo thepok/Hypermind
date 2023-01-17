@@ -81,7 +81,7 @@
     private async Task<string>  createAnswer()
     {
         lastPromp = GetPromp();
-        ModelWithPromp model = new ModelWithPromp(new OpenAI(maxNewTokens: 500), new PrompTemplate(lastPromp));
+        ModelWithPromp model = new ModelWithPromp(new OAI(maxNewTokens: 500), new PrompTemplate(lastPromp));
         string answer = "";
         await Task.Run(() =>
         {

@@ -8,7 +8,7 @@ namespace HypermindLib
 {
     public class RecursivSummarizer : Chain
     {
-        PrompTemplate SummerizerPromp = new PrompTemplate(
+        PrompTemplate SummarizerPromp = new PrompTemplate(
 @"""Summerize the following text between >>> and <<< 
 
 >>>
@@ -21,15 +21,15 @@ Summery:"""
         ModelWithPromp Sumerizer;
         public RecursivSummarizer(LLM llm)
         {
-            Sumerizer = new ModelWithPromp(llm, SummerizerPromp);
+            Sumerizer = new ModelWithPromp(llm, SummarizerPromp);
         }
 
         /// <summary>
-        /// Simplified Call to Summerizer
+        /// Simplified Call to Summarizer
         /// </summary>
         /// <param name="text">Text we want summerized</param>
         /// <returns></returns>
-        public string Summerize(string text)
+        public string Summarize(string text)
         {
             var splits = Textsplitter.SmartStringSplit(text, 8000);
 
@@ -41,7 +41,7 @@ Summery:"""
             }
             else
             {
-                var concatsummeries = splits.Select(s => Summerize(s)).Aggregate("", (current, next) => { return current +" "+ next; });
+                var concatsummeries = splits.Select(s => Summarize(s)).Aggregate("", (current, next) => { return current +" "+ next; });
                 
 
                 return concatsummeries;

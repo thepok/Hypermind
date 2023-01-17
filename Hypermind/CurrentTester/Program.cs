@@ -1,8 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using HypermindLib;
-
+using OpenAILib = OpenAI;
 //Ask a LLM a question that it directly without help awnsers.
-var askLLm = new AskLLM(new OpenAI());
+var askLLm = new AskLLM(new OAI());
 var site = askLLm.Ask("What is the Url of the Wikipediasite about the element gold?");
 Console.WriteLine(site);
 
@@ -18,12 +18,12 @@ var splits = Textsplitter.SmartStringSplit(text, 4000);
 Console.WriteLine("warning - summarizing a book with OpenAI davinci costs ~ 2$");
 Console.ReadLine();
 text = webrequest.Get("https://www.gutenberg.org/files/11/11-h/11-h.htm");
-var recursivSummerizer = new RecursivSummarizer(new OpenAI(maxNewTokens:500));
-var summery = recursivSummerizer.Summerize(text);
+var recursivSummarizer = new RecursivSummarizer(new OAI(maxNewTokens:500));
+var summery = recursivSummarizer.Summarize(text);
 Console.WriteLine(summery);
 
 //ask questions about a text
-var answerer = new AnswerQuestionAboutText(new OpenAI());
+var answerer = new AnswerQuestionAboutText(new OAI());
 var result = answerer.AskQuestion("the apple was red and the car yellow","what color was the apple?");
 Console.WriteLine(result);
 

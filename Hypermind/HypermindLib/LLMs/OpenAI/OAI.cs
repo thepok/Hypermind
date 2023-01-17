@@ -9,7 +9,7 @@ using OpenAI.GPT3.Interfaces;
 namespace HypermindLib
 {
     
-    public class OpenAI : LLM
+    public class OAI : LLM
     {
 
        
@@ -33,7 +33,7 @@ namespace HypermindLib
         /// </summary>
         /// <param name="model">Name of Model, see OpenAIModels for possible Values</param>
         /// <param name="maxNewTokens">Maximum numbers of Tokens to generate</param>
-        public OpenAI(string model = STRONGEST, int maxNewTokens=250, double temperature=0)
+        public OAI(string model = STRONGEST, int maxNewTokens=250, double temperature=0)
         {
             openAiService = new OpenAIService(new OpenAiOptions()
             {
