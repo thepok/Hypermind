@@ -38,7 +38,7 @@ else
 {
     <div style="display: flex; width: 100%;">
         <button style="flex: 90%;" @onclick="() => GetAdvice(FollowUp)">@FollowUp</button>
-        <button style="flex: 10%;" @onclick="() => Speak(FollowUp)">&#x1F9BB;</button>
+        <button style="flex: 10%;" @onclick="@( e=> Speak(FollowUp, currentLanguage))">&#x1F9BB;</button>
     </div>
 }
 
@@ -62,6 +62,7 @@ else
 
     public string[] FollowUps = new string[0];
 
+    public string currentLanguage = "en";
 
     public string Status="Status: All Good";
 
@@ -84,7 +85,8 @@ else
             {
                 var answer = advicer.GetRespons();
                 FollowUps = answer.FollowUpQuestions;
-                Speak(answer.AnswerToRead);
+                currentLanguage = answer.LanguageOfAnswer;
+                Speak(answer.AnswerToRead, answer.LanguageOfAnswer);
                 Status = "";
             }
             catch
@@ -107,10 +109,10 @@ else
 
     }
 
-    private void Speak(string text)
+    private void Speak(string text, string language)
     {
         //if (BBB.UseVoiceSystem == false)
         //    return;
-        JsRuntime.InvokeAsync<object>("speak", text);
+        JsRuntime.InvokeAsync<object>("speak", text, language);
     }
 }

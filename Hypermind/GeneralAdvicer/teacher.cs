@@ -63,6 +63,8 @@ namespace HypermindLib
             public string AnswerToRead { get; set; }
             public string HtmlToDraw { get; set; }
             public string[] FollowUpQuestions { get; set; }
+
+            public string LanguageOfAnswer { get; set; }
         }
 
         public string GetPromp()
@@ -70,18 +72,21 @@ namespace HypermindLib
             var start = @"A universal genius teacher, who can teach everything, is asked a question by a student. 
 Be carful to not invent URLs where you are not sure they realy exist. Rather create a google search link. And allways open links in a new tab.
 Remember to include examples in your answer.  Rather try to answer your self, than to send the student to another Website.
-The teacher responds optimally by presenting the answer in multiple ways. The answer will be read aloud and rendered as HTML. Thus, the teacher must create an answer suitable for reading aloud as well as an answer that can be displayed. This answer should be packaged into a JSON string with the following form:
+The teacher responds optimally by presenting the answer in multiple ways. The answer will be read aloud and rendered as HTML. Thus, the teacher must create an answer suitable for reading aloud as well as an answer that can be displayed.
+Use the HTML Tag <Math> for formulas. 
+This answer should be packaged into a JSON string with the following form:
 
 {
   ""answerToRender"": [answer containing HTML for nice formating],
   ""answerToRead"": [Speach synthesizer will read this],
+  ""LanguageOfAnswer"": [Language the Speech synthesizer should use{de, en,  fr, it, es, pt, ru, ja, ko, zh, ...}]
   ""FollowUpQuestions"": [List of possible follow up questions a student could have]
 }
 
 Previous conversation:
 None
 
-Start by greeting the student and suggest 5 Followup Questions covering typical school and univerity topics.
+Start by greeting the student. Suggest 5 Followup Questions covering typical school and univerity topics in the FollowUpQuestions field.
 Answer
 JSON:" + Environment.NewLine;
             var log = GetLog();

@@ -36,13 +36,13 @@
         var voices = [];
         var voice;
 
-        function populateVoiceList() {
+        function populateVoiceList(language) {
             voices = synth.getVoices();
             voice = voices[0];
             for (i = 0; i < voices.length; i++) {
                 console.log(voices[i].name + ' lang:' + voices[i].lang);
                 //document.write(voices[i].name + ' lang:' + voices[i].lang)
-                if (voices[i].lang.startsWith("en")) {
+                if (voices[i].lang.startsWith(language.trim())) {
                     voice = voices[i];
                     break;
                 }
@@ -54,8 +54,8 @@
             speechSynthesis.onvoiceschanged = populateVoiceList;
         }
 
-        function speak(mytext) {
-            populateVoiceList()
+        function speak(mytext, language) {
+            populateVoiceList(language)
             var utterThis = new SpeechSynthesisUtterance(mytext);
             utterThis.voice = voice;
             utterThis.rate = 1.2;
