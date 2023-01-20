@@ -2,12 +2,17 @@
 @page "/"
 @using HypermindLib
 @using System.Text;
+@inject IJSRuntime JsRuntime
 
 <PageTitle>General Advicer</PageTitle>
 
-<h1>GeneralAdvicer</h1>
+<p align="center">
+    <b>
+        <font size="6">G</font><font size="4">ENERAL </font><font size="6">T</font><font size="4">EATCHER </font>
+    </b>
+</p>
 
-@foreach (var message in messages)
+@foreach (var message in advicer.messages)
 {
     <p>@message.sender: @((MarkupString)message.text)</p>
 }
@@ -19,89 +24,58 @@
 </form>
 
 @code {
+    
+    private Teacher advicer = new Teacher();
+    
+    
 
-    class Message
-    {
-        public string sender;
-        public string text;
-        public DateTime time;
-        
-        public string ToLogline()
-        {
-            return $"{sender}: {text}";
-        }
-    }
-
-    private List<Message> messages = new List<Message>();
-
+    
     private string status = "";
 
     private string nextMessage = "";
 
     public string lastPromp = "not yet set";
+    
 
-    private const string BotName = "Advicer";
-
-    private const string UserName = "User";
-
-    private string GetLog()
-    {
-        var sb = new StringBuilder();
-
-        foreach( var message in messages)
-        {
-            sb.AppendLine(message.ToLogline());
-        }
-        return sb.ToString();
-    }
-
-    public string GetPromp()
-    {
-        var start = @"You are a nice Advicer helping the User. Your answers are rendered as HTML. So if you want to show a Table or provide a link, simply do so in HTML. Start by greeting the User." + Environment.NewLine;
-        var log = GetLog();
-        var YouPart = BotName+":";
-
-        return start + log + YouPart;
-    }
 
     protected override async void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-
-            Console.WriteLine("Init called!");
-
             await createAnswer();
-
-            Console.WriteLine("Init done!");
             base.OnAfterRender(firstRender);
         }
     }
 
-    private async Task<string>  createAnswer()
+    private async Task  createAnswer()
     {
-        lastPromp = GetPromp();
-        ModelWithPromp model = new ModelWithPromp(new OAI(maxNewTokens: 500), new PrompTemplate(lastPromp));
-        string answer = "";
         await Task.Run(() =>
         {
             this.status = "Loading answer";
             this.InvokeAsync(() => this.StateHasChanged());
-            answer = model.Process().Result[0].Value;
-            messages.Add(new Message { sender = BotName, text = answer, time = DateTime.Now });
+            var answer = advicer.GetRespons();
+            Speak(answer);
             status = "Waiting for User";
             this.InvokeAsync(() => this.StateHasChanged());
         });
-        return answer;
     }
 
     private async void GetAdvice()
     {
-        this.messages.Add(new Message { sender = UserName, text = nextMessage, time = DateTime.Now });
+        //add text from website als new message
+        this.advicer.AddMessage(advicer.UserName, nextMessage);
 
         nextMessage = "";
 
+        //let chatgpt create new message
         await createAnswer();
 
+    }
+
+    private void Speak(string text)
+    {
+        //if (BBB.UseVoiceSystem == false)
+        //    return;
+        JsRuntime.InvokeAsync<object>("speak", text);
     }
 }
