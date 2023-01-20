@@ -52,12 +52,6 @@ namespace HypermindLib
             }
         }
 
-        class ComplexAnswer
-        {
-            public string AnswerToRender { get; set; }
-            public string AnswerToRead { get; set; }
-        }
-        
         public string GetPromp()
         {
             var start = @"You are a nice Advicer helping the User. Your answers are rendered as HTML. So if you want to show a Table or provide a link, simply do so in HTML. Start by greeting the User." + Environment.NewLine;
