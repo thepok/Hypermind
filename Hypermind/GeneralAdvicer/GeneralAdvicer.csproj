@@ -11,4 +11,10 @@
     <ProjectReference Include="..\HypermindLib\HypermindLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\wait.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

@@ -58,8 +58,12 @@ namespace HypermindLib
                 else
                 {
                     var result = CallLLM(input);
-                    cache.Set(cacheKey, result.Completion, HypermindCache.CacheTime);
-                    return result;
+                    if (result.State == OutputState.Success)
+                    {
+                        cache.Set(cacheKey, result.Completion, HypermindCache.CacheTime);
+                        return result;
+                    }
+                    throw new Exception("Error getting Model response");
                 }
                 
 

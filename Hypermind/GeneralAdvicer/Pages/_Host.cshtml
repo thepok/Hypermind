@@ -41,9 +41,10 @@
             voice = voices[0];
             for (i = 0; i < voices.length; i++) {
                 console.log(voices[i].name + ' lang:' + voices[i].lang);
-                if (voices[i].lang === "en-US") {
+                //document.write(voices[i].name + ' lang:' + voices[i].lang)
+                if (voices[i].lang.startsWith("en")) {
                     voice = voices[i];
-                    //break;
+                    break;
                 }
             }
         }
@@ -54,9 +55,11 @@
         }
 
         function speak(mytext) {
+            populateVoiceList()
             var utterThis = new SpeechSynthesisUtterance(mytext);
             utterThis.voice = voice;
             utterThis.rate = 1.2;
+            utterThis.lang = utterThis.voice.lang
             synth.speak(utterThis);
         }
     </script>

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Text.Json.Nodes;
+using OpenAI.GPT3.ObjectModels.ResponseModels;
 
 namespace HypermindLib
 {
@@ -11,17 +14,19 @@ namespace HypermindLib
     {
         public List<Message> messages = new List<Message>();
         
-        public string BotName = "Advicer";
+        public string BotName = "Teacher";
 
-        public string UserName = "User";
+        public string UserName = "Student";
 
-        public string GetRespons()
+        public ModelResult GetRespons()
         {
             var promp = GetPromp();
             ModelWithPromp model = new ModelWithPromp(new OAI(maxNewTokens: 500), new PrompTemplate(promp));
-            var answer = model.Process().Result[0].Value;
-            AddMessage(BotName, answer);
-            return answer;
+
+            var answerJSON = model.Process().Result[0].Value;
+            ModelResult result = JsonConvert.DeserializeObject<ModelResult>(answerJSON);
+            AddMessage(BotName, result.AnswerToRender);
+            return result;
         }
 
         public void AddMessage(string senderName, string text)
@@ -52,13 +57,38 @@ namespace HypermindLib
             }
         }
 
+        public class ModelResult
+        {
+            public string AnswerToRender { get; set; }
+            public string AnswerToRead { get; set; }
+            public string HtmlToDraw { get; set; }
+            public string[] FollowUpQuestions { get; set; }
+        }
+
         public string GetPromp()
         {
-            var start = @"You are a nice Advicer helping the User. Your answers are rendered as HTML. So if you want to show a Table or provide a link, simply do so in HTML. Start by greeting the User." + Environment.NewLine;
+            var start = @"A universal genius teacher, who can teach everything, is asked a question by a student. 
+Be carful to not invent URLs where you are not sure they realy exist. Rather create a google search link. And allways open links in a new tab.
+Remember to include examples in your answer.  Rather try to answer your self, than to send the student to another Website.
+The teacher responds optimally by presenting the answer in multiple ways. The answer will be read aloud and rendered as HTML. Thus, the teacher must create an answer suitable for reading aloud as well as an answer that can be displayed. This answer should be packaged into a JSON string with the following form:
+
+{
+  ""answerToRender"": [answer containing HTML for nice formating],
+  ""answerToRead"": [Speach synthesizer will read this],
+  ""FollowUpQuestions"": [List of possible follow up questions a student could have]
+}
+
+Previous conversation:
+None
+
+Start by greeting the student and suggest 5 Followup Questions covering typical school and univerity topics.
+Answer
+JSON:" + Environment.NewLine;
             var log = GetLog();
             var YouPart = BotName + ":";
 
-            return start + log + YouPart;
+            var final = start + log + YouPart;
+            return final;
         }
 
     }
