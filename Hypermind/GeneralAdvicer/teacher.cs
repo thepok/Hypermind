@@ -21,7 +21,7 @@ namespace HypermindLib
         public ModelResult GetRespons()
         {
             var promp = GetPromp();
-            ModelWithPromp model = new ModelWithPromp(new OAI(maxNewTokens: 500), new PrompTemplate(promp));
+            ModelWithPromp model = new ModelWithPromp(new OAI(maxNewTokens: -1), new PrompTemplate(promp));
 
             var answerJSON = model.Process().Result[0].Value;
             ModelResult result = JsonConvert.DeserializeObject<ModelResult>(answerJSON);

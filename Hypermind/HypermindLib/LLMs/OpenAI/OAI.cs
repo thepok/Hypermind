@@ -1,18 +1,15 @@
-﻿using HypermindLib;
-using static System.Net.Mime.MediaTypeNames;
+﻿using AI.Dev.OpenAI.GPT;
+using OpenAI.GPT3;
 using OpenAI.GPT3.Managers;
 using OpenAI.GPT3.ObjectModels.RequestModels;
-using OpenAI.GPT3.ObjectModels;
-using OpenAI.GPT3;
-using OpenAI.GPT3.Interfaces;
 
 namespace HypermindLib
 {
-    
+
     public class OAI : LLM
     {
 
-       
+
         public HttpClient? HtmlClient;
 
         public const string
@@ -33,7 +30,7 @@ namespace HypermindLib
         /// </summary>
         /// <param name="model">Name of Model, see OpenAIModels for possible Values</param>
         /// <param name="maxNewTokens">Maximum numbers of Tokens to generate</param>
-        public OAI(string model = STRONGEST, int maxNewTokens=250, double temperature=0)
+        public OAI(string model = STRONGEST, int maxNewTokens = -1, double temperature = 0)
         {
             openAiService = new OpenAIService(new OpenAiOptions()
             {
@@ -50,14 +47,14 @@ namespace HypermindLib
             UniqueID = $"OpenAI_{model}_{temperature}_{maxNewTokens}";
         }
 
-        
+
         public override LLM_Output CallLLM(LLM_Input promp)
         {
             var completionResult = openAiService.Completions
             .CreateCompletion(new CompletionCreateRequest()
             {
                 Prompt = promp.Input,
-                MaxTokens = MaxTokens
+                MaxTokens = MaxTokens == -1 ? 4000-CountTokensIn(promp.Input) : MaxTokens,
             }, Model);
 
             completionResult.Wait();
@@ -87,6 +84,11 @@ namespace HypermindLib
         public override string GetUniqueID()
         {
             return UniqueID;
+        }
+
+        public int CountTokensIn(string text)
+        {
+           return GPT3Tokenizer.Encode(text).Count;
         }
     }
 }
