@@ -66,6 +66,7 @@ else
 
     public string Status="Status: All Good";
 
+    public bool LastCallToGPTsucceeded = true;
     protected override async void OnAfterRender(bool firstRender)
     {
         if (firstRender)
@@ -74,6 +75,7 @@ else
             base.OnAfterRender(firstRender);
         }
     }
+
 
     private async Task createAnswer()
     {
@@ -84,6 +86,7 @@ else
             try
             {
                 var answer = advicer.GetRespons();
+                LastCallToGPTsucceeded = true;
                 FollowUps = answer.FollowUpQuestions;
                 currentLanguage = answer.LanguageOfAnswer;
                 Speak(answer.AnswerToRead, answer.LanguageOfAnswer);
@@ -92,6 +95,8 @@ else
             catch
             {
                 Status = "Teacher did not respond, please try again. Sorry";
+                LastCallToGPTsucceeded = false;
+
             }
             WaitingForTeacher = false;
             this.InvokeAsync(() => this.StateHasChanged());
@@ -100,6 +105,10 @@ else
 
     private async void GetAdvice(string param)
     {
+        if(LastCallToGPTsucceeded==false)
+        {
+            this.advicer.messages.RemoveAt(this.advicer.messages.Count - 1);
+        }
         this.advicer.AddMessage(advicer.UserName, param);
 
         nextMessage = "";
