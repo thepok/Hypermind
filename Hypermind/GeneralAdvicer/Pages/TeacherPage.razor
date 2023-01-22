@@ -1,5 +1,6 @@
 ﻿@page "/teacher"
 @page "/"
+@page "/teacher/{language}"
 @using HypermindLib
 @using System.Text;
 @inject IJSRuntime JsRuntime
@@ -37,14 +38,14 @@ else
 @foreach (var FollowUp in FollowUps)
 {
     <div style="display: flex; width: 100%;">
-        <button style="flex: 90%;" @onclick="() => GetAdvice(FollowUp)">@FollowUp</button>
-        <button style="flex: 10%;" @onclick="@( e=> Speak(FollowUp, currentLanguage))">&#x1F9BB;</button>
+        <button class="UIbutton" style="flex: 90%;" @onclick="() => GetAdvice(FollowUp)">@FollowUp</button>
+        <button class="UIbutton" style="flex: 10%;" @onclick="@( e=> Speak(FollowUp, currentLanguage))">&#x1F9BB;</button>
     </div>
 }
 
 <form @onsubmit="()=>GetAdvice(nextMessage)">
     <InputText placeholder="Enter your question here..." @bind-Value="nextMessage"></InputText>
-    <button class="btn btn-primary">Send</button>
+    <button class="UIbutton">Send</button>
 </form>
 
 
@@ -67,10 +68,30 @@ else
     public string Status="Status: All Good";
 
     public bool LastCallToGPTsucceeded = true;
+
+    [Parameter]
+    public string language { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (string.IsNullOrWhiteSpace(language))
+        {
+            Console.WriteLine("language not set ´default to english");
+            language = "english";
+        }
+        advicer.language = language;
+        Console.WriteLine("language set to " + language);
+        advicer.language = language;
+        base.OnParametersSet();
+
+        OnAfterRender(true);
+    }
+
     protected override async void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
+            advicer.Reset();
             await createAnswer();
             base.OnAfterRender(firstRender);
         }

@@ -18,6 +18,8 @@ namespace HypermindLib
 
         public string UserName = "Student";
 
+        public string language = "english";
+
         public ModelResult GetRespons()
         {
             var promp = GetPromp();
@@ -34,6 +36,10 @@ namespace HypermindLib
             messages.Add(new Message { sender = senderName, text = text, time = DateTime.Now });
         }
 
+        public void Reset()
+        {
+            this.messages = new List<Message>();
+        }
 
         private string GetLog()
         {
@@ -73,7 +79,7 @@ namespace HypermindLib
 Be carful to not invent URLs where you are not sure they realy exist. Rather create a google search link. And allways open links in a new tab.
 Remember to include examples in your answer.  Rather try to answer your self, than to send the student to another Website.
 The teacher responds optimally by presenting the answer in multiple ways. The answer will be read aloud and rendered as HTML. Thus, the teacher must create an answer suitable for reading aloud as well as an answer that can be displayed.
-Use the HTML Tag <Math> for formulas. 
+Answer in "+language+@" if not stated otherwise by the user.
 This answer should be packaged into a JSON string with the following form:
 
 {
